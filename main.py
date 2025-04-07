@@ -47,9 +47,9 @@ def main_loop(root, label, _joystick):
 
 def init_tkinter():
     root = tk.Tk()
-    root.title("ジャンプ通知 終了はterminalでCTRL+C")
-    root.geometry("800x100")
-    label = tk.Label(root, text="", font=("Arial", 24))
+    root.title("コマンドチャレンジ 終了はterminalでCTRL+C")
+    root.geometry("640x80")
+    label = tk.Label(root, text="", font=("Arial", 20))
     label.pack()
     return root, label
 
