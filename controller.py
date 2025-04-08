@@ -19,14 +19,24 @@ def detect_controller_input():
         elif event.type == pygame.JOYHATMOTION:
             # ハットスイッチの入力をボタンとして扱う
             x, y = event.value
-            if x == -1:
+            if x == -1 and y == 1:
+                return "ボタン: ハットスイッチ 左上"
+            elif x == -1 and y == -1:
+                return "ボタン: ハットスイッチ 左下"
+            elif x == 1 and y == -1:
+                return "ボタン: ハットスイッチ 右下"
+            elif x == 1 and y == 1:
+                return "ボタン: ハットスイッチ 右上"
+            elif x == -1:
                 return "ボタン: ハットスイッチ 左"
             elif x == 1:
                 return "ボタン: ハットスイッチ 右"
-            if y == -1:
+            elif y == -1:
                 return "ボタン: ハットスイッチ 下"
             elif y == 1:
                 return "ボタン: ハットスイッチ 上"
+            elif x == 0 and y == 0:
+                return "ボタン: ハットスイッチ ニュートラル"
         elif event.type == pygame.JOYBUTTONUP:
             # ボタンが離されたイベントは無視
             continue
