@@ -1,14 +1,14 @@
+import sys
 import pygame
 import toml
-import sys
 
-def get_input_as_bitstring(joystick):
-    pygame.event.pump()  # イベント更新
+from lever import get_hat_input_as_fighting_game_notation
 
+def get_buttons_as_bitstring(joystick):
     # ボタン入力を取得（0または1）
     buttons = [joystick.get_button(i) for i in range(joystick.get_numbuttons())]
 
-    # アナログ入力を2ビット表現に変換（小数点1桁まで丸め、特定軸に対応）
+    # アナログ入力を2ビット表現に変換（軸4と軸5を対象とする）
     axes = []
     for i in range(joystick.get_numaxes()):
         axis_value = joystick.get_axis(i)
@@ -20,14 +20,6 @@ def get_input_as_bitstring(joystick):
                 axes.extend([1, 0])
             elif axis_value < -1:  # 負方向（理論的には発生しないが念のため）
                 axes.extend([0, 1])
-        else:
-            continue
-            # if axis_value > 0.5:
-            #     axes.extend([1, 0])  # 正の値を10とする
-            # elif axis_value < -0.5:
-            #     axes.extend([0, 1])  # 負の値を01とする
-            # else:
-            #     axes.extend([0, 0])  # 中間値を00とする
 
     # ビット列を構成
     bitstring = ''.join(map(str, buttons))  # ボタンのビット列
@@ -35,17 +27,17 @@ def get_input_as_bitstring(joystick):
 
     return bitstring
 
-def load_config():
-    """bits_named.toml を読み込む"""
+def load_config(config_path):
+    """指定された TOML ファイルを読み込む"""
     try:
-        with open("bits_named.toml", "r", encoding="utf-8") as file:
+        with open(config_path, "r", encoding="utf-8") as file:
             config = toml.load(file)
             return config
     except FileNotFoundError:
-        print("bits_named.toml が見つかりません。")
+        print(f"{config_path} が見つかりません。")
         return {}
     except toml.TomlDecodeError as e:
-        print(f"bits_named.toml の読み込み中にエラーが発生しました: {e}")
+        print(f"{config_path} の読み込み中にエラーが発生しました: {e}")
         return {}
 
 def clear_screen():
@@ -53,13 +45,23 @@ def clear_screen():
     sys.stdout.write("\033[2J\033[H")
     sys.stdout.flush()
 
+def get_pressed_buttons(names, bitstring, plus):
+    """現在押されているボタンを 'A + B' の形式で返す"""
+    pressed_buttons = [name for name, state in zip(names, bitstring[:len(names)]) if name and state == '1']
+    return plus.join(pressed_buttons)
+
 def main():
     pygame.init()
 
     # 設定ファイルを読み込む
-    config = load_config()
+    config = load_config("bits_named.toml")
     names = config.get("names", [])
+    plus = config.get("plus")
     print(f"読み込まれた設定: {names}")
+
+    config = load_config("lever.toml")
+    lever_names = config.get("names", [])
+    print(f"読み込まれた設定: {lever_names}")
 
     # ジョイスティックの初期化
     joystick_count = pygame.joystick.get_count()
@@ -74,14 +76,29 @@ def main():
 
     try:
         while True:
-            bitstring = get_input_as_bitstring(joystick)
-            clear_screen()  # 画面をクリア
+            pygame.event.pump()
+            bitstring = get_buttons_as_bitstring(joystick)
+            clear_screen()
             print("入力状態:")
-            for name, state in zip(names, bitstring[:len(names)]):  # names に対応する部分だけを取得
+            for name, state in zip(names, bitstring[:len(names)]):
                 if name:
                     print(f"{name}: {state}")
             print(f"ビット列: {bitstring}")
-            pygame.time.wait(100)  # 少し待機して入力を取得
+
+            lever = get_hat_input_as_fighting_game_notation(joystick, lever_names)
+            if lever == lever_names[4]: # ニュートラルの場合は表示なし。なぜなら「ニュートラル+A+B」はわかりづらいと感じた。今後見直す可能性あり。
+                lever = None
+            pressed = get_pressed_buttons(names, bitstring, plus)
+            if lever and pressed:
+                print(f"押されているボタン: {lever}{plus}{pressed}")
+            elif lever:
+                print(f"押されているボタン: {lever}")
+            elif pressed and lever is None:
+                print(f"押されているボタン: {pressed}")
+            elif lever is None and pressed is None:
+                print("押されているボタン: なし")
+
+            pygame.time.wait(100) # 16だと点滅が激しくて見づらかった
     except KeyboardInterrupt:
         print("プログラムを終了します。")
     finally:
