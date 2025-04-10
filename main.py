@@ -15,7 +15,7 @@ def init_joystick():
         print(f"{i}: {joystick.get_name()} - ボタン数: {joystick.get_numbuttons()}")
     return joystick
 
-def show_jump_notification(root, label, text, timer):
+def show_input(root, label, text, timer):
     def reset_topmost():
         do_backmost(root)
 
@@ -37,13 +37,15 @@ def do_backmost(root):
     root.update()
 
 def main_loop(root, label, _joystick):
-    timer = {"id": None}  # タイマーIDを管理する辞書
+    timer_id_dict = {"id": None}
+    clock = pygame.time.Clock()
     while True:
         result = detect_controller_input()
         if result:
-            show_jump_notification(root, label, result, timer)
+            show_input(root, label, result, timer_id_dict)
         root.update_idletasks()
         root.update()
+        clock.tick(60)
 
 def init_tkinter():
     root = tk.Tk()
