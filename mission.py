@@ -63,6 +63,12 @@ def main():
     lever_names = config.get("names", [])
     print(f"読み込まれた設定: {lever_names}")
 
+    config = load_config("mission.toml")
+    mission_name = config.get("mission_name", "")
+    mission = config.get("mission", "")
+    print(f"読み込まれた設定: {mission_name}")
+    print(f"読み込まれた設定: {mission}")
+
     # ジョイスティックの初期化
     joystick_count = pygame.joystick.get_count()
     if joystick_count == 0:
