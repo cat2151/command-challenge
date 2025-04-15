@@ -99,10 +99,13 @@ def main():
                 print(f"押されているボタン: {lever}{plus}{pressed}")
             elif lever:
                 print(f"押されているボタン: {lever}")
-            elif pressed and lever is None:
+            elif pressed:
                 print(f"押されているボタン: {pressed}")
-            elif lever is None and pressed is None:
+            else:
                 print("押されているボタン: なし")
+
+            if mission_name and mission:
+                print(f"{mission_name}: {mission}")
 
             pygame.time.wait(100) # 16だと点滅が激しくて見づらかった
     except KeyboardInterrupt:
