@@ -95,17 +95,22 @@ def main():
             if lever == lever_names[4]: # ニュートラルの場合は表示なし。なぜなら「ニュートラル+A+B」はわかりづらいと感じた。今後見直す可能性あり。
                 lever = None
             pressed = get_pressed_buttons(names, bitstring, plus)
+            lever_plus_pressed = "なし"
             if lever and pressed:
-                print(f"押されているボタン: {lever}{plus}{pressed}")
+                lever_plus_pressed = f"{lever}{plus}{pressed}"
             elif lever:
-                print(f"押されているボタン: {lever}")
+                lever_plus_pressed = f"{lever}"
             elif pressed:
-                print(f"押されているボタン: {pressed}")
-            else:
-                print("押されているボタン: なし")
+                lever_plus_pressed = f"{pressed}"
+            print(f"押されているボタン: {lever_plus_pressed}")
 
             if mission_name and mission:
                 print(f"{mission_name}: {mission}")
+
+                if lever_plus_pressed == mission:
+                    print("green")
+                else:
+                    print("red")
 
             pygame.time.wait(100) # 16だと点滅が激しくて見づらかった
     except KeyboardInterrupt:
