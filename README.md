@@ -41,21 +41,31 @@
 
 # ブレインストーミング
 - 次、mission
-    - 案、まずprintで検証、が楽か、案を洗い出して整理する
-        - 仕様案
-            - input
-                - mission.toml
-                    - mission_name = "右に歩け！" # まず割り切って直接書く。後で揉み
-                    - mission = "右"              # 〃
-            - output
-                - お題目の行：「右に歩け！」
-                - 入力状態行：「空欄（入力なし）」「右」
-                - red / green 行：「red（入力状態が右以外）」「green（入力状態が右）」
-        - 上記を動作確認してから、次の段階に進む
-            - 状態遷移、idle、入力ありred、red後の入力なし、入力ありgreen、green後の入力なし
-                - red後の入力なし、green後の入力なし、は1秒でidleに戻る
-                - 状態に応じてbackground colorを、red, green, 色なし、を変更する
-        - 一歩ずつ、一歩を素早く
+    - printで検証していく
+        - 状態遷移
+            - list
+                - idle → 入力ありred / 入力ありgreen
+                - 入力ありred → （1秒経過で）idle
+                - 入力ありgreen → （1秒経過で）idle / 入力ありgreen / 入力ありred / all green
+                - all green → idle
+        - test list ざっくり
+            - ※mission : 「2 3 を入力せよ」
+            - 初回 green
+                - idle → （2で）入力ありgreen
+                - 入力ありred → （2で）入力ありgreen
+                - all green → （2で）入力ありgreen
+            - 初回 red
+                - idle → （3で）入力ありred
+                - all green → （3で）入力ありred
+                - 入力ありred → （3で）入力ありred
+            - 2回目でred
+                - idle（2が入力済み） → （1で）入力ありred
+                - 入力ありgreen（2が入力済み） → （1で）入力ありred
+            - 完走
+                - idle（2が入力済み） → （3で）all green
+                - 入力ありgreen（2が入力済み） → （3で）all green
+        - ※状態に応じてbackground colorを、red, green, 色なし、を変更する
+    - ※一歩ずつ、一歩を素早く
 - 考え方、ゆっくり入力で正確性を優先、のちspeed up。楽器の練習と同じ
     - よって、入力時間制限を割り切ってカットして開発を進める
         - ひとまずそれで決め。検討は後回し
