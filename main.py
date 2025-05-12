@@ -1,6 +1,11 @@
-import tkinter as tk
 import pygame
 from controller import detect_controller_input
+from gui import do_backmost, do_topmost, init_tkinter
+
+def main():
+    joystick = init_joystick()
+    (root, label) = init_tkinter()
+    main_loop(root, label, joystick)
 
 def init_joystick():
     if hasattr(pygame, 'init'):
@@ -15,27 +20,6 @@ def init_joystick():
         print(f"{i}: {joystick.get_name()} - ボタン数: {joystick.get_numbuttons()}")
     return joystick
 
-def show_input(root, label, text, timer):
-    def reset_topmost():
-        do_backmost(root)
-
-    do_topmost(root)
-    label.config(text=text)
-    root.update()
-
-    if timer["id"] is not None:
-        root.after_cancel(timer["id"])
-    timer["id"] = root.after(1000, reset_topmost)
-
-def do_topmost(root):
-    root.attributes("-topmost", True)
-    root.update()
-
-def do_backmost(root):
-    root.attributes("-topmost", False)
-    root.lower()
-    root.update()
-
 def main_loop(root, label, _joystick):
     timer_id_dict = {"id": None}
     clock = pygame.time.Clock()
@@ -47,19 +31,17 @@ def main_loop(root, label, _joystick):
         root.update()
         clock.tick(60)
 
-def init_tkinter():
-    root = tk.Tk()
-    root.title("コマンドチャレンジ 終了はterminalでCTRL+C")
-    root.geometry("640x80")
-    label = tk.Label(root, text="", font=("Arial", 20))
-    label.pack()
-    return root, label
+def show_input(root, label, text, timer):
+    def reset_topmost():
+        do_backmost(root)
 
-def main():
-    joystick = init_joystick()
-    (root, label) = init_tkinter()
+    do_topmost(root)
+    label.config(text=text)
+    root.update()
 
-    main_loop(root, label, joystick)
+    if timer["id"] is not None:
+        root.after_cancel(timer["id"])
+    timer["id"] = root.after(1000, reset_topmost)
 
 try:
     main()
