@@ -51,7 +51,8 @@ def get_pressed_buttons(names, bitstring, plus):
     return plus.join(pressed_buttons)
 
 def main():
-    pygame.init()
+    if hasattr(pygame, 'init'): # こうしないとlinterエラー
+        pygame.init()
 
     # 設定ファイルを読み込む
     config = load_config("bits_named.toml")
@@ -116,7 +117,8 @@ def main():
     except KeyboardInterrupt:
         print("プログラムを終了します。")
     finally:
-        pygame.quit()
+        if hasattr(pygame, 'quit'): # こうしないとlinterエラー
+            pygame.quit()
 
 if __name__ == "__main__":
     main()
