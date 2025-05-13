@@ -1,0 +1,3 @@
+[backmost_mode]
+check_interval_sec = 10
+process_name = 'StreetFighter6.exe'
