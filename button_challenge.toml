@@ -1,10 +1,22 @@
 # 現状無効。今後実装予定。
 
-[[mission]]
+# まずこれを動くようにする
+# 挙動は同じ
+# リファクタリングするイメージ
+mission_name = "右に歩け！" # まず割り切って直接書く。後で揉み
+mission      = "右"         # 〃
+
+lever_toml      = "lever.toml"
+bits_named_toml = "bits_named.toml"
+
+###############
+# あとでこちらに移行する
+
+[[missions]]
 mission = "右"
 
-[[mission]]
+[[missions]]
 mission = "A"
 
-[[mission]]
+[[missions]]
 mission = "RS + B"
