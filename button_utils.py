@@ -3,21 +3,23 @@ import toml
 import pygame
 
 def load_all_configs():
-    """設定ファイルを読み込み、必要なデータを返す"""
-    config = load_config("bits_named.toml")
-    names = config.get("names", [])
-    plus = config.get("plus")
-    print(f"読み込まれた設定: {names}")
-
-    config = load_config("lever.toml")
-    lever_names = config.get("names", [])
-    print(f"読み込まれた設定: {lever_names}")
-
-    config = load_config("mission.toml")
+    # TODO config_filename を引数に取るようにする。その場合、get_args も他projectから移植してくること。
+    config = read_toml("button_challenge.toml")
     mission_name = config.get("mission_name", "")
     mission = config.get("mission", "")
     print(f"読み込まれた設定: {mission_name}")
     print(f"読み込まれた設定: {mission}")
+    bits_named_toml = config.get("bits_named_toml", "")
+    lever_toml = config.get("lever_toml", "")
+
+    config = read_toml(bits_named_toml)
+    names = config.get("names", [])
+    plus = config.get("plus")
+    print(f"読み込まれた設定: {names}")
+
+    config = read_toml(lever_toml)
+    lever_names = config.get("names", [])
+    print(f"読み込まれた設定: {lever_names}")
 
     return names, plus, lever_names, mission_name, mission
 
@@ -57,17 +59,16 @@ def get_buttons_as_bitstring(joystick):
 
     return bitstring
 
-def load_config(config_path):
-    """指定された TOML ファイルを読み込む"""
+def read_toml(toml_path):
     try:
-        with open(config_path, "r", encoding="utf-8") as file:
+        with open(toml_path, "r", encoding="utf-8") as file:
             config = toml.load(file)
             return config
     except FileNotFoundError:
-        print(f"{config_path} が見つかりません。")
+        print(f"{toml_path} が見つかりません。")
         return {}
     except toml.TomlDecodeError as e:
-        print(f"{config_path} の読み込み中にエラーが発生しました: {e}")
+        print(f"{toml_path} の読み込み中にエラーが発生しました: {e}")
         return {}
 
 def clear_screen():
