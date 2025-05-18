@@ -2,9 +2,8 @@ import sys
 import toml
 import pygame
 
-def load_all_configs():
-    # TODO config_filename を引数に取るようにする。その場合、get_args も他projectから移植してくること。
-    config = read_toml("button_challenge.toml")
+def load_all_configs(config_filename):
+    config = read_toml(config_filename)
     mission_name = config.get("mission_name", "")
     mission = config.get("mission", "")
     print(f"読み込まれた設定: {mission_name}")

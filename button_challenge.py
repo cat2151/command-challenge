@@ -6,7 +6,8 @@ def main():
     if hasattr(pygame, 'init'): # こうしないとlinterエラー
         pygame.init()
 
-    (names, plus, lever_names, mission_name, mission) = load_all_configs()
+    # TODO config_filename をargsから得る。そのためget_args も他projectから移植してくること。
+    (names, plus, lever_names, mission_name, mission) = load_all_configs("button_challenge.toml")
 
     joystick = initialize_joystick()
     if joystick is None:
