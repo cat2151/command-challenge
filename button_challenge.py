@@ -1,14 +1,15 @@
 import pygame
 from button_utils import get_buttons_as_bitstring, get_pressed_buttons, initialize_joystick, load_all_configs, update_display
 from lever import get_hat_input_as_fighting_game_notation
+from utils import get_args, update_args_by_toml
 
 def main():
+    args = get_args()
+    args = update_args_by_toml(args, args.config_filename)
+    (names, plus, lever_names, mission_name, mission) = load_all_configs(args)
+
     if hasattr(pygame, 'init'): # こうしないとlinterエラー
         pygame.init()
-
-    # TODO config_filename をargsから得る。そのためget_args も他projectから移植してくること。
-    (names, plus, lever_names, mission_name, mission) = load_all_configs("button_challenge.toml")
-
     joystick = initialize_joystick()
     if joystick is None:
         return

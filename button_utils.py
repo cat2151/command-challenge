@@ -2,25 +2,17 @@ import sys
 import toml
 import pygame
 
-def load_all_configs(config_filename):
-    config = read_toml(config_filename)
-    mission_name = config.get("mission_name", "")
-    mission = config.get("mission", "")
-    print(f"読み込まれた設定: {mission_name}")
-    print(f"読み込まれた設定: {mission}")
-    bits_named_toml = config.get("bits_named_toml", "")
-    lever_toml = config.get("lever_toml", "")
-
-    config = read_toml(bits_named_toml)
+def load_all_configs(args):
+    config = read_toml(args.bits_named_toml)
     names = config.get("names", [])
     plus = config.get("plus")
     print(f"読み込まれた設定: {names}")
 
-    config = read_toml(lever_toml)
+    config = read_toml(args.lever_toml)
     lever_names = config.get("names", [])
     print(f"読み込まれた設定: {lever_names}")
 
-    return names, plus, lever_names, mission_name, mission
+    return names, plus, lever_names, args.mission_name, args.mission
 
 def initialize_joystick():
     """ジョイスティックを初期化し、接続されていない場合はNoneを返す"""
