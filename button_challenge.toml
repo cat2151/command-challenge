@@ -35,6 +35,26 @@ input = "中"
 [[missions]]
 input = "強"
 
+# 投げ
+[[missions]]
+input = "右 + 弱 + 中"
+
+[[missions]]
+input = "左 + 弱 + 中"
+
+# 必殺技
+[[missions]]
+input = "必"
+
+[[missions]]
+input = "右 + 必"
+
+[[missions]]
+input = "左 + 必"
+
+[[missions]]
+input = "下 + 必"
+
 # DI
 [[missions]]
 input = "DI"
