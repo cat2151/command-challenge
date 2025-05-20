@@ -12,7 +12,7 @@ def load_all_configs(args):
     lever_names = config.get("names", [])
     print(f"読み込まれた設定: {lever_names}")
 
-    return names, plus, lever_names, args.mission_name, args.mission
+    return names, plus, lever_names
 
 def initialize_joystick():
     """ジョイスティックを初期化し、接続されていない場合はNoneを返す"""
@@ -72,11 +72,11 @@ def get_pressed_buttons(names, bitstring, plus):
     pressed_buttons = [name for name, state in zip(names, bitstring[:len(names)]) if name and state == '1']
     return plus.join(pressed_buttons)
 
-def update_display(names, mission_name, mission, bitstring, lever_plus_pressed, mission_result):
+def update_display(names, mission, bitstring, lever_plus_pressed, mission_result):
     clear_screen()
     print_button_status(names, bitstring)
     print(f"レバー+ボタン: {lever_plus_pressed}")
-    print(f"{mission_name}: {mission}: {mission_result}")
+    print(f"mission : {mission} : {mission_result}")
 
 def print_button_status(names, bitstring):
     print("入力状態:")
