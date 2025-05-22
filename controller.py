@@ -1,5 +1,18 @@
 import pygame
 
+def init_joystick():
+    if hasattr(pygame, 'init'):
+        pygame.init()  # こうしないとlinterでerror
+    pygame.joystick.init()
+
+    joystick = None
+    print("接続されているジョイスティック:")
+    for i in range(pygame.joystick.get_count()):
+        joystick = pygame.joystick.Joystick(i)
+        joystick.init()
+        print(f"{i}: {joystick.get_name()} - ボタン数: {joystick.get_numbuttons()}")
+    return joystick
+
 def detect_controller_input():
     for event in pygame.event.get():  # すべてのイベントを取得
         if event.type == pygame.JOYBUTTONDOWN:
