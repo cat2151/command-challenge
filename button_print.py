@@ -1,6 +1,6 @@
 import sys
 
-def update_display(names, mission, bitstring, lever_plus_pressed, mission_result):
+def print_all(names, mission, bitstring, lever_plus_pressed, mission_result):
     clear_screen()
     print_button_status(names, bitstring)
     print(f"レバー+ボタン: {lever_plus_pressed}")

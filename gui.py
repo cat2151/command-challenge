@@ -10,6 +10,7 @@ def init_tkinter():
     return root, label
 
 def do_topmost(root):
+    # print("ウィンドウを最前面にします。")
     root.attributes("-topmost", True)
     root.update()
 
@@ -22,6 +23,7 @@ def do_topmost(root):
     root.update()
 
 def do_backmost(root):
+    # print("ウィンドウを背面にします。")
     root.attributes("-topmost", False)
     root.lower()
     root.update()

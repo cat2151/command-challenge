@@ -27,7 +27,12 @@ def main_loop(root, label, args):
 
 def show_input(root, label, text, timer):
     do_topmost(root)
-    label.config(text=text)
+
+    if isinstance(label, list) and isinstance(text, list):
+        for l, t in zip(label, text):
+            l.config(text=t)
+    else:
+        label.config(text=text)
     root.update()
 
     # 入力から指定秒数後にbackmost化する用
@@ -35,10 +40,11 @@ def show_input(root, label, text, timer):
         root.after_cancel(timer["id"])
     timer["id"] = root.after(1000, lambda: do_backmost(root))
 
-try:
-    main()
-except KeyboardInterrupt:
-    print("終了")
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("終了")
 
-    if hasattr(pygame, 'quit'):
-        pygame.quit()  # こうしないとlinterでerror
+        if hasattr(pygame, 'quit'):
+            pygame.quit()  # こうしないとlinterでerror

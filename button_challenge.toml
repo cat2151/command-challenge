@@ -1,6 +1,10 @@
 lever_toml      = "lever.toml"
 bits_named_toml = "bits_named.toml"
 
+[backmost_mode]
+check_interval_sec = 10
+process_names = ['StreetFighter6.exe', 'CapcomFightingCollection.exe']
+
 # ひとまず方針 : 自分が今練習したい操作を優先して書く。
 
 # レバー
