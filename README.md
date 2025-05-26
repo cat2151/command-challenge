@@ -34,6 +34,10 @@
     - 終了はconsoleで`CTRL+C`
     - 設定ファイルは`button_challenge.toml`
 
+# 検討中
+- alias、`SA2`と`右 + 強 + 必`を両方表示
+- 左右ランダム、tomlの簡素化
+
 # 今後の予定
 - button challenge
     - しばらくドッグフーディングしてから次を決めるつもり
