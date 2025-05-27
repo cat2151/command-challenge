@@ -33,6 +33,8 @@ def main():
             # input
             buttons_bits = get_buttons_as_bitstring(joystick)
             lever_plus_pressed = create_button_states(names, plus, lever_names, joystick, buttons_bits)
+
+            # check
             (mission, mission_index, missions_set, success_missions, score) = check_and_update_mission(plus, missions, mission_index, lever_plus_pressed, missions_set, success_missions, score)
 
             # display
