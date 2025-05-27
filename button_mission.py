@@ -1,12 +1,32 @@
-
 import random
 
-def check_and_update_mission(plus, missions, mission_index, lever_plus_pressed):
+def check_and_update_mission(plus, missions, mission_index, lever_plus_pressed, missions_set, success_missions, score):
     mission = missions[mission_index]["input"]
     mission_result = check_mission_success(mission, lever_plus_pressed, plus)
     if mission_result == "green":
-        mission_index = get_random_mission_index(missions)
-    return mission, mission_result, mission_index
+        mission_index, missions_set, success_missions, score = on_green(missions, missions_set, mission, success_missions, score)
+
+    return mission, mission_index, missions_set, success_missions, score
+
+def on_green(missions, missions_set, mission, success_missions, score):
+    missions_set = update_missions_set(missions, missions_set, mission, success_missions)
+    mission_index = get_new_mission_index(missions, missions_set)
+    score += 1
+    return mission_index, missions_set, success_missions, score
+
+def update_missions_set(missions, missions_set, mission, success_missions):
+    success_missions.add(mission)
+    missions_set.remove(mission)
+    if not missions_set:
+        print("すべてのmissionを成功しました")
+        success_missions.clear()
+        missions_set = set(m["input"] for m in missions)
+    return missions_set
+
+def get_new_mission_index(missions, missions_set):
+    mission = random.choice(list(missions_set))
+    mission_index = next((i for i, m in enumerate(missions) if m["input"] == mission), -1)
+    return mission_index
 
 def check_mission_success(mission, lever_plus_pressed, plus):
     formated_mission = format_mission_string(mission, plus)
@@ -23,7 +43,3 @@ def format_mission_string(mission, plus):
     sorted_tokens = sorted(trimmed)
     combined = plus.join(sorted_tokens)
     return combined
-
-def get_random_mission_index(missions):
-    mission_index = random.randint(0, len(missions) - 1)
-    return mission_index
