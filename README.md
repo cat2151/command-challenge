@@ -35,8 +35,10 @@
     - 設定ファイルは`button_challenge.toml`
 
 # 検討中
-- alias、`SA2`と`右 + 強 + 必`を両方表示
 - 左右ランダム、tomlの簡素化
+    - tomlには前の意味でひとまず右を記載
+    - （alias実装後）左右のかわりに前後を記載
+- alias、`SA2`と`右 + 強 + 必`を両方表示
 
 # 今後の予定
 - button challenge
