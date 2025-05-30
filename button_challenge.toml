@@ -1,6 +1,9 @@
 lever_toml      = "lever.toml"
 bits_named_toml = "bits_named.toml"
 
+left_right      = ['左', '右']       # 左右反転対象にする文字
+left_right_temp = ['ひだり', 'みぎ'] # 内部で左右反転処理時に一時的に使う用（missionで使われない文字にすること）
+
 [backmost_mode]
 check_interval_sec = 10
 process_names = ['StreetFighter6.exe', 'CapcomFightingCollection.exe']
