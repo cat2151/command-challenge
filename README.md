@@ -8,7 +8,7 @@
 まだ動きません。
 
 もし「アシストボタン + 必殺技ボタン を押せ！」などにチャレンジしたいときは
-[ボタンチャレンジ](https://github.com/cat2151/fighting-game-button-challenge])
+[ボタンチャレンジ](https://github.com/cat2151/fighting-game-button-challenge)
 を使ってください。
 動きます。
 
